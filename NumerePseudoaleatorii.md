@@ -20,12 +20,33 @@ Un CSPRNG este definit prin două categorii de proprietăți:
 Chiar dacă un atacator cunoaște o parte mare din ieșirile generatorului, el nu trebuie să poată prezice bitul următor mai bine decât prin ghicit (50%). Dacă această condiție este îndeplinită, generatorul este considerat sigur din punct de vedere statistic.
 
 2. Rezistența la compromiterea stării 
-a. Forward Secrecy: Dacă starea internă este dezvăluită la un moment dat, atacatorul nu trebuie să poată recupera ieșirile generate în trecut. Astfel, cheile sau secretele deja folosite rămân protejate.
-b. Backward Secrecy: Dacă starea a fost compromisă, generatorul trebuie să poată integra rapid entropie nouă (reînsămânțare), astfel încât ieșirile viitoare să nu mai fie predictibile pentru atacator.
+
+- Forward Secrecy: Dacă starea internă este dezvăluită la un moment dat, atacatorul nu trebuie să poată recupera ieșirile generate în trecut. Astfel, cheile sau secretele deja folosite rămân protejate.
+- Backward Secrecy: Dacă starea a fost compromisă, generatorul trebuie să poată integra rapid entropie nouă (reînsămânțare), astfel încât ieșirile viitoare să nu mai fie predictibile pentru atacator.
 
 ### 2.2. Sursa de Entropie și Rolul Seedului 
 Securitatea unui CSPRNG depinde de seed, adică valoarea inițială cu care este pornit generatorul. Seed-ul trebuie să provină dintr-o sursă imprevizibilă de entropie (TRNG): zgomot hardware, evenimente de I/O, latențe, sau senzori specializați. Sistemele de operare colectează acea entropie într-un „pool” dedicat și o oferă la inițializarea și reînsămânțarea CSPRNG-urilor.
 Dacă seed-ul este slab sau predictibil, întreaga securitate a generatorului este compromisă, motiv pentru care CSPRNG-urile includ mecanisme de reseeding periodic, pentru a restabili Backward Secrecy și pentru a preveni atacurile pe termen lung. 
 
-###2.3. Modele criptografice
+### 2.3. Modele criptografice
 Generatoarele criptografice sigure sunt cunoscute sub numele de Deterministic Random Bit Generators (DRBG) și sunt standardizate pentru a garanta robustețea.
+
+1. Abordarea Standardizată
+Majoritatea CSPRNG-uirlor moderne respectă specificațiile NIST SP 800-90A, care definește trei mecanisme de generare, toate bazate pe primitive bine studiate:
+- Hash DRBG: Utilizează o funcție hash criptografică (ex. SHA-256) pentru a genera biții și pentru a actualiza starea.
+- HMAC DRBG: Utilizează funcția HMAC (Hash-based Message Authentication Code), care oferă o securitate teoretică mai robustă decât Hash DRBG-ul simplu.
+- CTR DRBG: Utilizează un cifru pe bloc (ex. AES) în modul Counter (CTR) pentru a genera secvența de biți.
+
+Aceste modele sunt preferate deoarece se bazează pe primite criptografice bine înțelese și analize extensiv. 
+
+2. Sursa de Entropie (Seed-ul)
+Pentru a fi sigure, DRBG-urile necesită un seed provenit dintr-o sursă de entropie reală (True Random Number Generator). Entropia este colectată din fenomene fizice imprevizibile precum zgomotul electronic, mișcările utilizatorului sau timpii de latență ai sistemului.
+
+Sistemele de operare acumulează aceste informații într-un „pool” de entropie și le expun prin interfețe precum /dev/random, /dev/urandom (Linux) sau API-uri specifice precum Windows CryptoAPI. Această entropie este necesară atât la inițializare, cât și la re-seeding, pentru a asigura impredictibilitatea pe termen lung.
+
+## 3. Aplicații cirptografice și Analiza Securității 
+
+## 4. Testare și concluzii 
+
+## 5. Bibliografie
+
