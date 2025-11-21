@@ -44,13 +44,12 @@ Sistemele de operare acumulează aceste informații într-un „pool” de entro
 
 Acest capitol prezintă implementarea a 4 versiuni diferite de generare de numere pseudo-aleatoare folosind Python. Limbajul Python a fost ales datorită ușurinței sale de scriere și înțelegere. 
 
-- **random_numbers.py**: Programul trimite o cerere către **random.org** pentru a primi un **număr aleator** între 0 și 100. Dacă răspunsul este valid, extrage numărul și îl afișează.  
-- **rnd_numbers.py_v2**: Programul trimite o cerere către **ANU Quantum Random Number Generator API**, care generează numere aleatoare folosind **fenomene cuantice reale**. API-ul returnează informația în format **JSON**, de aceea se folosește și librăria `json`.  
-- **rnd_numbers_v2_timeout.py**: Programul trimite o cerere către API-ul ANU pentru a obține un număr aleator cuantic și îl afișează dacă totul este în regulă. Dacă serverul indică că a fost depășită limita de un request pe minut, programul așteaptă automat 60 de secunde și reîncearcă. Folosește o funcție separată care gestionează cererea, răspunsul și eventualele erori, făcând codul mai organizat decât celelalte versiuni.  
-- **secrets.py**: Programul generează local un token de autentificare securizat folosind modulul `secrets` și îl folosește într-o cerere HTTP către un API extern. Token-ul este trimis în header-ul Authorization, iar programul verifică dacă cererea a avut succes și extrage datele JSON returnate de API. Gestionarea erorilor de rețea și HTTP este realizată elegant, afișând fie rezultatul API-ului, fie mesajul de eroare. Comparativ cu celelalte programe, acesta nu generează numere de la un server, ci creează token-ul local și îl folosește pentru autentificare.
+- **[random_numbers.py](Code-Source/random_numbers.py)**: Programul trimite o cerere către **random.org** pentru a primi un **număr aleator** între 0 și 100. Dacă răspunsul este valid, extrage numărul și îl afișează.  
+- **[rnd_numbers.py_v2](Code-Source/rnd_numbers_v2.py)**: Programul trimite o cerere către **ANU Quantum Random Number Generator API**, care generează numere aleatoare folosind **fenomene cuantice reale**. API-ul returnează informația în format **JSON**, de aceea se folosește și librăria `json`.  
+- **[rnd_numbers_v2_timeout.py](Code-Source/rnd_numbers_v2_timeout.py)**: Programul trimite o cerere către API-ul ANU pentru a obține un număr aleator cuantic și îl afișează dacă totul este în regulă. Dacă serverul indică că a fost depășită limita de un request pe minut, programul așteaptă automat 60 de secunde și reîncearcă. Folosește o funcție separată care gestionează cererea, răspunsul și eventualele erori, făcând codul mai organizat decât celelalte versiuni.  
+- **[secrets.py]()**: Programul generează local un token de autentificare securizat folosind modulul `secrets` și îl folosește într-o cerere HTTP către un API extern. Token-ul este trimis în header-ul Authorization, iar programul verifică dacă cererea a avut succes și extrage datele JSON returnate de API. Gestionarea erorilor de rețea și HTTP este realizată elegant, afișând fie rezultatul API-ului, fie mesajul de eroare. Comparativ cu celelalte programe, acesta nu generează numere de la un server, ci creează token-ul local și îl folosește pentru autentificare.
 
 ---
-
 ### Funcții și librării comune
 - **`requests`** – trimite cereri HTTP și primește răspunsuri, permite verificarea codului de status, preluarea textului sau JSON-ului și tratarea erorilor.  
 - **`json()`** – folosit pentru a parsa răspunsurile JSON și a accesa datele într-un mod structurat.  
@@ -66,7 +65,6 @@ Acest capitol prezintă implementarea a 4 versiuni diferite de generare de numer
 - Permite obținerea de date reale sau simulate de la API-uri fără a implementa algoritmi complexi.  
 - Structurarea codului în funcții (retry, tratamentul răspunsurilor) crește lizibilitatea și modularitatea.  
 - Folosirea librăriilor standard (`requests`, `json`, `secrets`) face codul portabil și ușor de întreținut.
-
 ---
 
 ### Dezavantaje & Limitări
@@ -77,7 +75,6 @@ Acest capitol prezintă implementarea a 4 versiuni diferite de generare de numer
 - Conversia la `int()` sau JSON parsing poate genera erori dacă API-ul schimbă structura răspunsului.
 
 ---
-
 ### Observații utile
 - Programele oferă exemple de **interacțiune API în Python**, combinând generarea sigură de date și randomizare.  
 - Folosirea unei funcții dedicate pentru retry (`rnd_numbers_v2_timeout.py`) este un exemplu de **programare robustă și modulară**.  
