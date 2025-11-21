@@ -108,4 +108,8 @@ Acest capitol prezintă implementarea a 4 versiuni diferite de generare de numer
 
 ---
 ## 5. Bibliografie
+- (https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator)
+- (https://www.youtube.com/watch?v=mkYdI6pyluY )
+- (https://cryptography.io/en/latest/random-numbers/)
+- (https://cryptobook.nakov.com/secure-random-generators)
 
