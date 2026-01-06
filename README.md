@@ -4,6 +4,6 @@ Acest proiect prezintă numerele pseudo-aleatorii și metodele de generare a ace
 
 1. [Generarea de numere pseudoaleatorii](NumerePseudoaleatorii.md)
 2. [Generator pentru aplicații criptografice](NumerePseudoaleatorii.md)
-3. [Implementarea unui PRNG]()
-4. [Testare & Concluzii](NumerePseudoaleatorii.md)
+3. [Implementarea unui PRNG](NumerePseudoaleatorii.md)
+4. [Concluzii](NumerePseudoaleatorii.md)
 5. [Bibliografie](NumerePseudoaleatorii.md)
