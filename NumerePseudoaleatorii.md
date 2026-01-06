@@ -50,58 +50,21 @@ Acest capitol prezintă implementarea a 4 versiuni diferite de generare de numer
 - **[secrets.py]()**: Programul generează local un token de autentificare securizat folosind modulul `secrets` și îl folosește într-o cerere HTTP către un API extern. Token-ul este trimis în header-ul Authorization, iar programul verifică dacă cererea a avut succes și extrage datele JSON returnate de API. Gestionarea erorilor de rețea și HTTP este realizată elegant, afișând fie rezultatul API-ului, fie mesajul de eroare. Comparativ cu celelalte programe, acesta nu generează numere de la un server, ci creează token-ul local și îl folosește pentru autentificare.
 
 ---
-### Funcții și librării comune
-- **`requests`** – trimite cereri HTTP și primește răspunsuri, permite verificarea codului de status, preluarea textului sau JSON-ului și tratarea erorilor.  
-- **`json()`** – folosit pentru a parsa răspunsurile JSON și a accesa datele într-un mod structurat.  
-- **`int()`** – transformă textul în număr întreg acolo unde este necesar.  
-- **`try/except`** – previne blocarea aplicației în caz de erori de rețea, API sau conversie.  
-- **`time.sleep()`** – folosit pentru implementarea pauzelor automate și retry logic (în programele cu rate-limit).  
-- **`secrets`** – permite generarea de token-uri criptografic sigure pentru autentificare și securitate.
+Drept funcții și librării comune, regăsim în toate cele patru surde cod următoarele: **`requests`**, funcție ce trimite cereri HTTP și primește răspunsuri, permite verificarea codului de status, preluarea textului sau JSON-ului și tratarea erorilor.  **`json()`** este folosit pentru a parsa răspunsurile JSON și a accesa datele într-un mod structurat. **`int()`** transformă textul în număr întreg acolo unde este necesar, **`try/except`** previne blocarea aplicației în caz de erori de rețea, API sau conversie. În final, mai regăsim și **`time.sleep()`** care este folosit pentru implementarea pauzelor automate și retry logic (în programele cu rate-limit).  și librăria **`secrets`**, ce permite generarea de token-uri criptografic sigure pentru autentificare și securitate.
+
+### 3.1 Avantaje comune
+Remarcaăm ca prim avantaj, faptul că toate programele folosesc librăriile standard ce fac codul portfabil și ușor de întreținut. De asemenea, toate cele patru programe sunt structurare în funcții - aspect ce crește lizibilitatea și modularitatea codului. Un alt avantaj regăsit printre cele 4 surse îl constituie faptul că programele permit obținerea de date reale sau simulate de la API-uri, fără a implementa aglorimit complexi. 
+
+### 3.2. Dezavantaje & Limitări
+În schimb, când vine vorba de dezavntaje & limitări, remarcăm dependența de conexiune la internet și de disponibilitatea API-urilor externe, precum și limitările cu privire la rate-limit (1 request/minut la ANU RNG) ce pot încetini testarea și execuția rapidă. De asemenea, un alt dezavantaj îl reprezintă faptul că Random.org și ANU RNG pot introduce latențe din cauza traficului sau restricțiilor serverului. `secrets.py` generează date local, dar nu produce numere aleatoare cuantice, iar conversia la `int()` sau JSON parsing poate genera erori dacă API-ul schimbă structura răspunsului.
 
 ---
-
-### Avantaje comune
-- Gestionarea erorilor face programele robuste și previne crash-uri.  
-- Permite obținerea de date reale sau simulate de la API-uri fără a implementa algoritmi complexi.  
-- Structurarea codului în funcții (retry, tratamentul răspunsurilor) crește lizibilitatea și modularitatea.  
-- Folosirea librăriilor standard (`requests`, `json`, `secrets`) face codul portabil și ușor de întreținut.
----
-
-### Dezavantaje & Limitări
-- Dependența de conexiune la internet și de disponibilitatea API-urilor externe.  
-- Limitările rate-limit (1 request/minut la ANU RNG) pot încetini testarea și execuția rapidă.  
-- Random.org și ANU RNG pot introduce latențe din cauza traficului sau restricțiilor serverului.  
-- `secrets.py` generează date local, dar nu produce numere aleatoare cuantice.  
-- Conversia la `int()` sau JSON parsing poate genera erori dacă API-ul schimbă structura răspunsului.
+### 3.3 Concluzii
+Programele analizate ilustrează abordări diferite pentru generarea numerelor aleatoare, incluzând metode pseudo-aleatoare, generare cuantică și generare locală criptografică. Acestea evidențiază, totodată, modul în care Python poate fi utilizat pentru interacțiunea cu API-uri externe, combinând generarea sigură de date cu mecanisme de randomizare. Din perspectiva securității, utilizarea modulului `secrets` este recomandată datorită generării locale de token-uri criptografic sigure și independenței față de servere externe. Pentru simulări și aplicații statistice, generatoarele cuantice precum ANU RNG oferă un nivel ridicat de aleatoriu real, însă cu limitări de performanță impuse de accesul prin API. Implementarea mecanismelor de retry și gestionarea rate-limit-ului contribuie semnificativ la robustețea aplicațiilor care comunică cu servicii externe, iar combinarea generării locale cu surse externe de aleatoriu poate oferi un echilibru optim între performanță și calitatea numerelor generate.
 
 ---
-### Observații utile
-- Programele oferă exemple de **interacțiune API în Python**, combinând generarea sigură de date și randomizare.  
-- Folosirea unei funcții dedicate pentru retry (`rnd_numbers_v2_timeout.py`) este un exemplu de **programare robustă și modulară**.  
-- Comparația între pseudo-random (`random.org`) și quantum random (`ANU RNG`) evidențiază diferențele dintre generarea locală, pseudo-random și quantum random.
-
----
-
-## 4. Testare și concluzii
-
-### 4.1 Testarea programelor
-- **random_numbers.py**: verificarea numerelor în intervalul 0–100 și corectitudinea răspunsului API.  
-- **rnd_numbers.py_v2**: validarea numerelor cuantice și a formatului JSON.  
-- **rnd_numbers_v2_timeout.py**: testarea retry logic și a limitării rate-limit, confirmând robustețea funcției `fetch_quantum_number`.  
-- **secrets.py**: verificarea generării token-urilor, a header-ului Authorization și gestionarea erorilor HTTP și de rețea.
-
-### 4.2 Observații din testare
-- Toate programele gestionează erorile comune (rețea, server, rate-limit).  
-- Funcțiile modulare cresc lizibilitatea și întreținerea codului.  
-- Latențele și timpul de răspuns diferă între API-uri; generarea locală (`secrets.py`) este instantanee.  
-- Testarea evidențiază diferențele dintre pseudo-random, quantum random și generarea locală.
-
-### 4.3 Concluzii
-- Programele demonstrează abordări diferite pentru generarea numerelor aleatoare: pseudo-random, quantum random și generare locală criptografică.  
-- Pentru securitate, `secrets.py` este recomandat datorită siguranței token-urilor și independenței de servere externe.  
-- Pentru simulări sau aplicații statistice, ANU RNG oferă adevărat randomness, cu limitările de performanță asociate.  
-- Retry logic și tratarea rate-limit-ului sunt practici bune pentru robustețea aplicațiilor care interacționează cu API-uri.  
-- Combinarea generării locale și externe poate optimiza performanța și calitatea numerelor aleatoare.
+### 4. Concluzii
+În concluzie, proiectul realizat evidențiază diferențele dintre generatoarele pseudo-aleatoare clasice și generatoarele criptografice sigure, subliniind importanța alegerii corecte a metodei de generare în funcție de domeniul de aplicare. Implementările prezentate demonstrează atât utilizarea surselor externe de aleatoriu real, precum Random.org și ANU Quantum RNG, cât și generarea locală securizată prin intermediul CSPRNG-urilor oferite de sistemul de operare. Testele arată că, deși sursele externe pot oferi un nivel ridicat de entropie, acestea implică limitări de performanță și dependență de infrastructură, în timp ce generarea locală criptografică oferă un compromis optim între securitate, eficiență și disponibilitate. Astfel, utilizarea CSPRNG-urilor locale este recomandată pentru aplicații de securitate, în timp ce generatoarele cuantice sunt mai potrivite pentru simulări și experimente statistice.
 
 ---
 ## 5. Bibliografie
@@ -109,4 +72,3 @@ Acest capitol prezintă implementarea a 4 versiuni diferite de generare de numer
 - (https://www.youtube.com/watch?v=mkYdI6pyluY )
 - (https://cryptography.io/en/latest/random-numbers/)
 - (https://cryptobook.nakov.com/secure-random-generators)
-
